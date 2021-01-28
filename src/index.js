@@ -8,6 +8,8 @@ const app = express();
 
 app.use(bodyParser.json());
 
+const PORT = process.env.PORT || 3000;
+
 app.post("/register", (req, res) => {
   const { email, password, firstName, lastName } = req.body;
   auth
@@ -67,6 +69,6 @@ app.get('/reset-password', (req, res) => {
   });
 })
 
-app.listen(3000, () => {
-  console.log(`Listening on http://localhost:${3000}`);
+app.listen(PORT, () => {
+  console.log(`Listening on http://localhost:${PORT}`);
 });
