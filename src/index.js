@@ -10,6 +10,14 @@ app.use(bodyParser.json());
 
 const PORT = process.env.PORT || 3000;
 
+auth.onAuthStateChanged(user => {
+  if (user) {
+    app.locals.currentUser = user.email;
+  }else {
+    app.locals.currentUser = null;
+  }
+})
+
 app.post("/register", (req, res) => {
   const { email, password, firstName, lastName } = req.body;
   auth
@@ -35,12 +43,23 @@ app.post("/register", (req, res) => {
 });
 
 app.get("/sign-out", (req, res) => {
-  auth
-    .signOut()
-    .then(() => res.send("User has been signed out"))
-    .catch(() => {
-      res.send("err");
-    });
+  let user = app.locals.currentUser
+
+  if (user) {
+    auth
+      .signOut()
+      .then(() => {
+        res.send({
+          message: "User has been signed out", 
+          user: user
+        })
+      })
+      .catch(() => {
+        res.send("err");
+      });
+  } else {
+    res.send("No user signed in");
+  }
 });
 
 app.post("/login", (req, res) => {
