@@ -8,7 +8,13 @@ const app = express();
 
 app.use(bodyParser.json());
 
-const PORT = process.env.PORT || 3000;
+app.use(function(req, res, next) {
+	res.setHeader('Access-Control-Allow-Origin', '*');
+	res.setHeader('Access-Control-Allow-Methods', 'GET, POSTS');
+	res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With, \
+		content-type, Authorization');
+	next();
+});
 
 auth.onAuthStateChanged(user => {
   if (user) {
@@ -88,6 +94,7 @@ app.post('/reset-password', (req, res) => {
   });
 })
 
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Listening on http://localhost:${PORT}`);
 });
