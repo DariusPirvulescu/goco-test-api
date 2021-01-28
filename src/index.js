@@ -25,7 +25,7 @@ auth.onAuthStateChanged(user => {
 })
 
 app.post("/register", (req, res) => {
-  const { email, password, firstName, lastName } = req.body;
+  const { email, password, name } = req.body;
   auth
   .createUserWithEmailAndPassword(email, password)
   .then((userCredential) => {
@@ -33,15 +33,15 @@ app.post("/register", (req, res) => {
 
       return db
         .ref("users/" + userId)
-        .set({ firstName: firstName, lastName: lastName, email: email });
+        .set({ name: name, email: email });
     })
     .then(() => {
       console.log("Added user");
-      res.send({
-        firstName: firstName,
-        lastName: lastName,
+      res.send(JSON.stringify({
+        type: 'succes',
+        name: name,
         email: email,
-      });
+      }));
     })
     .catch((err) => {
       res.send(err);
@@ -55,13 +55,14 @@ app.post("/sign-out", (req, res) => {
     auth
       .signOut()
       .then(() => {
-        res.send({
+        res.send(JSON.stringify({
+          type: 'succes',
           message: "User has been signed out", 
           user: user
-        })
+        }))
       })
       .catch(() => {
-        res.send("err");
+        res.send(err);
       });
   } else {
     res.send("No user signed in");
@@ -76,7 +77,12 @@ app.post("/login", (req, res) => {
     .then((userCredential) => {
       db.ref("users")
         .child(userCredential.user.uid).on("value", (snapshot) => {
-          res.send(snapshot);
+          // const {email, name} = snapshot
+          const data = {
+            snapshot,
+            type: "succes"
+          }
+          res.send(JSON.stringify(data));
         });
     })
     .catch((err) => {
@@ -88,7 +94,10 @@ app.post('/reset-password', (req, res) => {
   const { email } = req.body;
 
   auth.sendPasswordResetEmail(email).then(() => {
-    res.send('Email coming your way')
+    res.send(JSON.stringify({
+      type: 'succes',
+      message: 'Email coming your way'
+    }))
   }).catch((err) => {
     res.send(err)
   });
