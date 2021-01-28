@@ -10,7 +10,7 @@ app.use(bodyParser.json());
 
 app.use(function(req, res, next) {
 	res.setHeader('Access-Control-Allow-Origin', '*');
-	res.setHeader('Access-Control-Allow-Methods', 'GET, POSTS');
+	res.setHeader('Access-Control-Allow-Methods', 'GET, POST');
 	res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With, \
 		content-type, Authorization');
 	next();
@@ -94,7 +94,7 @@ app.post('/reset-password', (req, res) => {
   });
 })
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`Listening on http://localhost:${PORT}`);
 });
