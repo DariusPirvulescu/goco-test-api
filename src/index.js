@@ -82,7 +82,7 @@ app.post('/reset-password', (req, res) => {
   const { email } = req.body;
 
   auth.sendPasswordResetEmail(email).then(() => {
-    res.send('Email comming your way')
+    res.send('Email coming your way')
   }).catch((err) => {
     res.send(err)
   });
