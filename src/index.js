@@ -42,7 +42,7 @@ app.post("/register", (req, res) => {
     });
 });
 
-app.get("/sign-out", (req, res) => {
+app.post("/sign-out", (req, res) => {
   let user = app.locals.currentUser
 
   if (user) {
@@ -78,7 +78,7 @@ app.post("/login", (req, res) => {
     });
 });
 
-app.get('/reset-password', (req, res) => {
+app.post('/reset-password', (req, res) => {
   const { email } = req.body;
 
   auth.sendPasswordResetEmail(email).then(() => {
