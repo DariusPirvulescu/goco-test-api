@@ -39,8 +39,10 @@ app.post("/register", (req, res) => {
       console.log("Added user");
       res.send(JSON.stringify({
         type: 'succes',
-        name: name,
-        email: email,
+        snapshot: {
+          name: name,
+          email: email,
+        }
       }));
     })
     .catch((err) => {
@@ -65,7 +67,9 @@ app.post("/sign-out", (req, res) => {
         res.send(err);
       });
   } else {
-    res.send("No user signed in");
+    res.send(JSON.stringify({
+      message: "No user signed in"
+    }));
   }
 });
 
@@ -76,12 +80,13 @@ app.post("/login", (req, res) => {
     .signInWithEmailAndPassword(email, password)
     .then((userCredential) => {
       db.ref("users")
-        .child(userCredential.user.uid).on("value", (snapshot) => {
-          // const {email, name} = snapshot
+        .child(userCredential.user.uid)
+        .on("value", (snapshot) => {
           const data = {
-            snapshot,
+            snapshot: snapshot.val(),
             type: "succes"
           }
+          
           res.send(JSON.stringify(data));
         });
     })
