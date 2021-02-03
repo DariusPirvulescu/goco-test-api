@@ -7,8 +7,14 @@ module.exports = (req, res) => {
     .signInWithEmailAndPassword(email, password)
     .then((userCredential) => {
       db.ref("users")
-        .child(userCredential.user.uid).on("value", (snapshot) => {
-          res.send(snapshot);
+        .child(userCredential.user.uid)
+        .on("value", (snapshot) => {
+          const data = {
+            snapshot: snapshot.val(),
+            type: "success",
+          };
+
+          res.send(JSON.stringify(data));
         });
     })
     .catch((err) => {
