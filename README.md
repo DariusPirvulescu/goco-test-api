@@ -14,11 +14,11 @@ This is hosted on [Heroku](https://goco-test-api.herokuapp.com/).
 
 Clone this project and run 
 
-### `npm i`
+#### `npm i`
 
 To install the npm dependencies. Then start the server:
 
-### `npm run start`
+#### `npm run start`
 
 The server is live at [http://localhost:5000](http://localhost:5000).
 
@@ -33,3 +33,10 @@ These are the variables that needs to be specify in a `.env` file:
 - FIREBASE_STORAGE_BUCKET
 - FIREBASE_MESSAGING_SENDER_ID
 - FIREBASE_API_ID
+
+## Serveless Functions (ongoing)
+
+I started experimenting with writing serveless functions and deploying them to Vercel, they are currently on the *serverless* branch.\
+
+On Vercel live at:\
+https://goco-test-serverless-api.vercel.app/api/
